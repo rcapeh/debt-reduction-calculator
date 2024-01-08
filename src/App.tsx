@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, Paper, ThemeProvider } from '@mui/material';
-import SnowballCalculator from './components/snowballCalculator';
+import DebtReductionCalculator from './components/debtReductionCalculator';
 
 const theme = createTheme();
 
@@ -16,8 +16,7 @@ function App() {
           overflow: 'auto'
         }}
       >
-        <h1>content</h1>
-        <SnowballCalculator />
+        <DebtReductionCalculator />
       </Paper>
     </ThemeProvider>
   );
