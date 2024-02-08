@@ -1,5 +1,7 @@
+import { CalculatorStrategyEnum } from "../enums/CalculatorStrategyEnum";
+
 export type TSelectOption = {
   id: string;
-  value: string | number;
+  value: CalculatorStrategyEnum;
   label: string;
 }
