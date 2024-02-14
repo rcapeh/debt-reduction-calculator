@@ -235,6 +235,12 @@ const DebtReductionCalculator: FunctionComponent = () => {
                           </TableRow>
                         );
                       })}
+                      <TableRow>
+                        <TableCell colSpan={2}>Total Interest Paid</TableCell>
+                        <TableCell colSpan={2}>
+                          <AccountingStyleMoney amount={vm.totals.totalInterest} />
+                        </TableCell>
+                      </TableRow>
                     </>
                   ) : (
                     <>

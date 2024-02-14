@@ -1,46 +1,75 @@
 import { useEffect, useState } from 'react';
-import { TCalculatorRow, TPayoffRow } from '../types/calculatorTypes';
-import { calculatePayoffData, sumField } from './DebtReductionCalculator.svc';
+import { TCalculatorInputRow, TPayoffDataRow, TTotals } from '../types/calculatorTypes';
+import { calculatePayoffData, calculateTotals, sumField } from './DebtReductionCalculator.svc';
 import { CalculatorStrategyEnum } from '../enums/CalculatorStrategyEnum';
 
-const tempData: TCalculatorRow[] = [
+const tempData: TCalculatorInputRow[] = [
   {
-    creditor: 'A',
-    balance: 1000,
-    rate: 55,
-    payment: 50
+    creditor: 'WF - Points',
+    balance: 5612,
+    rate: 2524,
+    payment: 250
   },
   {
-    creditor: 'B',
-    balance: 2000,
-    rate: 25,
-    payment: 100
+    creditor: 'WF - Cash Back',
+    balance: 14069.67,
+    rate: 2999,
+    payment: 550
   },
   {
-    creditor: 'C',
-    balance: 3000,
-    rate: 45,
-    payment: 150
+    creditor: 'Discover',
+    balance: 12962.79,
+    rate: 2524,
+    payment: 250
+  },
+  {
+    creditor: 'Amex',
+    balance: 4333.61,
+    rate: 2999,
+    payment: 200
+  },
+  {
+    creditor: 'Citi',
+    balance: 8180,
+    rate: 0,
+    payment: 82
+  },
+  {
+    creditor: 'Chase',
+    balance: 1443.18,
+    rate: 2749,
+    payment: 46
+  },
+  {
+    creditor: 'Synchrony',
+    balance: 6037.72,
+    rate: 399,
+    payment: 250
   }
 ];
 
 const useDebtReductionCalculatorHook = () => {
   const title = 'Debt Reduction Calculator';
   const now = new Date().toLocaleDateString();
-  const emptyCalculatorRow: TCalculatorRow = {
-    creditor: 'D',
-    balance: 100,
-    rate: 100,
-    payment: 1
+  const emptyCalculatorRow: TCalculatorInputRow = {
+    creditor: '',
+    balance: 0,
+    rate: 0,
+    payment: 0
   };
 
-  const [creditorData, setCreditorData] = useState<TCalculatorRow[]>([...tempData, emptyCalculatorRow]);
-  const [payoffData, setPayoffData] = useState<TPayoffRow[]>([]);
+  const emptyTotals: TTotals = {
+    totalInterest: 0
+  };
+
+  const [creditorData, setCreditorData] = useState<TCalculatorInputRow[]>([...tempData]);
+  const [payoffData, setPayoffData] = useState<TPayoffDataRow[]>([]);
   const [totalBalance, setTotalBalance] = useState<number>(0);
   const [totalPayment, setTotalPayment] = useState<number>(0);
-  const [paymentBudget, setPaymentBudget] = useState<number>(500);
+  const [paymentBudget, setPaymentBudget] = useState<number>(2500);
   const [paymentStrategy, setPaymentStrategy] = useState<CalculatorStrategyEnum>(CalculatorStrategyEnum.SNOWBALL);
   const [initialSnowball, setInitialSnowball] = useState<number>(0);
+  const [totals, setTotals] = useState<TTotals>(emptyTotals);
 
   const handleChangePaymentBudget = (value: number) => {
     setPaymentBudget(value);
@@ -77,6 +106,8 @@ const useDebtReductionCalculatorHook = () => {
   const handleCalculatePayoffData = () => {
     const calculatedPayoffData = calculatePayoffData(creditorData, paymentStrategy, paymentBudget, initialSnowball);
     setPayoffData(calculatedPayoffData);
+    const calculatedTotals = calculateTotals(calculatedPayoffData);
+    setTotals(calculatedTotals);
   };
 
   const addRow = () => {
@@ -115,6 +146,7 @@ const useDebtReductionCalculatorHook = () => {
     payoffData,
     paymentStrategy,
     initialSnowball,
+    totals,
     addRow,
     delRow,
     handleChangeCreditor,

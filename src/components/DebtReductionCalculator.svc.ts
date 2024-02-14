@@ -1,8 +1,8 @@
 import { CalculatorStrategyEnum } from "../enums/CalculatorStrategyEnum";
-import { TCalculatingRow, TCalculatorRow, TPayoffRow } from "../types/calculatorTypes";
+import { TPaymentDataRow, TCalculatorInputRow, TPayoffDataRow, TTotals } from "../types/calculatorTypes";
 import _ from 'lodash';
 
-export const sumField = (data: TCalculatorRow[], field: keyof TCalculatorRow): number => {
+export const sumField = (data: TCalculatorInputRow[], field: keyof TCalculatorInputRow): number => {
   if (field === 'creditor') return 0;
   let sum = 0;
   for (const item of data) {
@@ -12,8 +12,8 @@ export const sumField = (data: TCalculatorRow[], field: keyof TCalculatorRow): n
   return sum;
 };
 
-export const calculatePayoffData = (calculatorData: TCalculatorRow[], strategy: CalculatorStrategyEnum, budget: number, initialSnowball: number): TPayoffRow[] => {
-  let payoffData: TPayoffRow[] = calculatorData.map(cData => {
+export const calculatePayoffData = (calculatorData: TCalculatorInputRow[], strategy: CalculatorStrategyEnum, budget: number, initialSnowball: number): TPayoffDataRow[] => {
+  let payoffData: TPayoffDataRow[] = calculatorData.map(cData => {
     return {
       creditor: cData.creditor,
       originalBalance: cData.balance,
@@ -64,8 +64,8 @@ export const calculatePayoffData = (calculatorData: TCalculatorRow[], strategy: 
   return payoffData;
 }
 
-const calculateCompoundInterestPayments = (row: TPayoffRow, snowball: number, nonSnowballPayments: number, firstPaymentExtra: number) => {
-  const calculatedData: TCalculatingRow[] = [];
+const calculateCompoundInterestPayments = (row: TPayoffDataRow, snowball: number, nonSnowballPayments: number, firstPaymentExtra: number) => {
+  const calculatedData: TPaymentDataRow[] = [];
   const { creditor, rate, originalBalance, paymentAmount } = row;
 
   let index = 0;
@@ -75,7 +75,7 @@ const calculateCompoundInterestPayments = (row: TPayoffRow, snowball: number, no
 
   do {
     const balance = index !== 0 ? calculatedData[index - 1].afterPaymentBalance : originalBalance;
-    const interestPaid = (balance * rate) / 12;
+    const interestPaid = (balance * (rate / 100)) / 12;
     let payment = 0;
     if (nonSnowballPayments > index) {
       payment = paymentAmount;
@@ -93,14 +93,14 @@ const calculateCompoundInterestPayments = (row: TPayoffRow, snowball: number, no
       afterPaymentBalance = 0;
     }
 
-    const row: TCalculatingRow = {
+    const row: TPaymentDataRow = {
       creditor,
       afterPaymentBalance,
       interestPaid,
       rate,
       paymentAmount: payment,
     }
-
+    console.info(`${row.creditor} ${index}: `, row)
     calculatedData.push(row);
 
     index++
@@ -138,4 +138,14 @@ const calculatePayoffDate = (date: Date, months: number): string => {
 export const displayMoney = (amount: number): string => {
   const fixedAmount = amount.toFixed(2);
   return `$ ${fixedAmount}`;
+}
+
+export const calculateTotals = (payoffData: TPayoffDataRow[]): TTotals => {
+  const totalInterest = _.sumBy(payoffData, 'interestPaid');
+
+  const result = {
+    totalInterest
+  }
+
+  return result;
 }

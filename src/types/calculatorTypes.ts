@@ -1,11 +1,11 @@
-export type TCalculatorRow = {
+export type TCalculatorInputRow = {
   creditor: string;
   balance: number;
   rate: number;
   payment: number;
 };
 
-export type TPayoffRow = {
+export type TPayoffDataRow = {
   creditor: string;
   originalBalance: number;
   interestPaid: number;
@@ -13,14 +13,18 @@ export type TPayoffRow = {
   paymentAmount: number;
   paymentCount: number;
   payoffDate: string;
-  data: TCalculatingRow[];
+  data: TPaymentDataRow[];
 }
 
-export type TCalculatingRow = {
+export type TPaymentDataRow = {
   creditor: string;
   afterPaymentBalance: number;
   interestPaid: number;
   rate: number;
   paymentAmount: number;
   payoffDate?: string;
+}
+
+export type TTotals = {
+  totalInterest: number
 }
