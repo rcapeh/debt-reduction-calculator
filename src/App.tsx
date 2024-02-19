@@ -1,5 +1,5 @@
 import { createTheme, CssBaseline, Paper, ThemeProvider } from '@mui/material';
-import DebtReductionCalculator from './components/DebtReductionCalculator';
+import DebtReductionCalculator from './components/debtReductionCalculator';
 
 const theme = createTheme();
 
