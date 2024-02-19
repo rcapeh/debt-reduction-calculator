@@ -3,51 +3,6 @@ import { TCalculatorInputRow, TPayoffDataRow, TTotals } from '../types/calculato
 import { calculatePayoffData, calculateTotals, sumField } from './DebtReductionCalculator.svc';
 import { CalculatorStrategyEnum } from '../enums/CalculatorStrategyEnum';
 
-const tempData: TCalculatorInputRow[] = [
-  {
-    creditor: 'WF - Points',
-    balance: 5612,
-    rate: 2524,
-    payment: 250
-  },
-  {
-    creditor: 'WF - Cash Back',
-    balance: 14069.67,
-    rate: 2999,
-    payment: 550
-  },
-  {
-    creditor: 'Discover',
-    balance: 12962.79,
-    rate: 2524,
-    payment: 250
-  },
-  {
-    creditor: 'Amex',
-    balance: 4333.61,
-    rate: 2999,
-    payment: 200
-  },
-  {
-    creditor: 'Citi',
-    balance: 8180,
-    rate: 0,
-    payment: 82
-  },
-  {
-    creditor: 'Chase',
-    balance: 1443.18,
-    rate: 2749,
-    payment: 46
-  },
-  {
-    creditor: 'Synchrony',
-    balance: 6037.72,
-    rate: 399,
-    payment: 250
-  }
-];
-
 const useDebtReductionCalculatorHook = () => {
   const title = 'Debt Reduction Calculator';
   const now = new Date().toLocaleDateString();
@@ -61,6 +16,52 @@ const useDebtReductionCalculatorHook = () => {
   const emptyTotals: TTotals = {
     totalInterest: 0
   };
+
+  const tempData: TCalculatorInputRow[] = [
+    emptyCalculatorRow
+    // {
+    //   creditor: 'WF - Points',
+    //   balance: 5612,
+    //   rate: 2524,
+    //   payment: 250
+    // },
+    // {
+    //   creditor: 'WF - Cash Back',
+    //   balance: 14069.67,
+    //   rate: 2999,
+    //   payment: 550
+    // },
+    // {
+    //   creditor: 'Discover',
+    //   balance: 12962.79,
+    //   rate: 2524,
+    //   payment: 250
+    // },
+    // {
+    //   creditor: 'Amex',
+    //   balance: 4333.61,
+    //   rate: 2999,
+    //   payment: 200
+    // },
+    // {
+    //   creditor: 'Citi',
+    //   balance: 8180,
+    //   rate: 0,
+    //   payment: 82
+    // },
+    // {
+    //   creditor: 'Chase',
+    //   balance: 1443.18,
+    //   rate: 2749,
+    //   payment: 46
+    // },
+    // {
+    //   creditor: 'Synchrony',
+    //   balance: 6037.72,
+    //   rate: 399,
+    //   payment: 250
+    // }
+  ];
 
   const [creditorData, setCreditorData] = useState<TCalculatorInputRow[]>([...tempData]);
   const [payoffData, setPayoffData] = useState<TPayoffDataRow[]>([]);
