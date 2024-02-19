@@ -104,7 +104,7 @@ const useDebtReductionCalculatorHook = () => {
   };
 
   const handleCalculatePayoffData = () => {
-    const calculatedPayoffData = calculatePayoffData(creditorData, paymentStrategy, paymentBudget, initialSnowball);
+    const calculatedPayoffData = calculatePayoffData(creditorData, paymentStrategy, initialSnowball);
     setPayoffData(calculatedPayoffData);
     const calculatedTotals = calculateTotals(calculatedPayoffData);
     setTotals(calculatedTotals);

@@ -12,7 +12,7 @@ export const sumField = (data: TCalculatorInputRow[], field: keyof TCalculatorIn
   return sum;
 };
 
-export const calculatePayoffData = (calculatorData: TCalculatorInputRow[], strategy: CalculatorStrategyEnum, budget: number, initialSnowball: number): TPayoffDataRow[] => {
+export const calculatePayoffData = (calculatorData: TCalculatorInputRow[], strategy: CalculatorStrategyEnum, initialSnowball: number): TPayoffDataRow[] => {
   let payoffData: TPayoffDataRow[] = calculatorData.map(cData => {
     return {
       creditor: cData.creditor,
